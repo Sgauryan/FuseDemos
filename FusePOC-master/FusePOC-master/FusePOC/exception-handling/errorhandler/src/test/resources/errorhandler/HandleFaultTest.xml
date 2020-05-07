@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    
+    <!-- this is the order service bean we use in the routes -->
+    <bean id="orderService" class="errorhandler.OrderService"/>
+    
+    <!-- this is the camel context, notice how we refer to the default error handler
+         as the context scoped error handler -->
+    <camelContext id="camelContext-74fd9815-e088-4a45-b16e-4333713008bb"  errorHandlerRef="dlc"
+        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        
+        <!-- this is the Dead Letter Channel error handler, where we send failed message to a mock endpoint -->
+        <errorHandler id="dlc" type="DeadLetterChannel" deadLetterUri="mock:dead"/>
+        
+        <!-- this is the route where we have enabled fault handling by the handleFault attribute -->
+        <route handleFault="true">
+            <from uri="seda:queue.inbox"/>
+            <bean ref="orderService" method="toSoap"/>
+            <to uri="mock:queue.order"/>
+        </route>
+
+    </camelContext>
+    
+</blueprint>

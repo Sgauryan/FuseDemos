@@ -1,0 +1,7 @@
+org/apache/camel/component/cxf/jaxrs/interceptor/MyOutInterceptor.class
+org/apache/camel/component/cxf/jaxrs/interceptor/TestInterceptor.class
+org/apache/camel/component/cxf/jaxrs/testbean/CustomerService.class
+org/apache/camel/component/cxf/jaxrs/testbean/CustomerService$1.class
+org/apache/camel/component/cxf/jaxrs/testbean/Order.class
+org/apache/camel/component/cxf/jaxrs/testbean/Customer.class
+org/apache/camel/component/cxf/jaxrs/testbean/Product.class

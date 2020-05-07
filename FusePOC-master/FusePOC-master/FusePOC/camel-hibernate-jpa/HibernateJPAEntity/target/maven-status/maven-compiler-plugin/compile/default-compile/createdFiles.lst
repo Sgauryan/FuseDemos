@@ -1,0 +1,3 @@
+com/mycompany/persistence/dm/Flight.class
+com/mycompany/persistence/dm/FlightServiceImpl.class
+com/mycompany/persistence/dm/FlightService.class

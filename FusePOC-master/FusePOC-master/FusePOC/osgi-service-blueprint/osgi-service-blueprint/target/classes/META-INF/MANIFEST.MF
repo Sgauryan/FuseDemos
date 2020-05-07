@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1500018205733
+Build-Jdk: 1.8.0_131
+Built-By: sarai
+Bundle-Blueprint: OSGI-INF/blueprint/config.xml
+Bundle-ManifestVersion: 2
+Bundle-Name: osgi-service
+Bundle-SymbolicName: org.fusesource.example.osgi-service
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.fusesource.example.service;version="0.0.1"
+Export-Service: org.fusesource.example.service.HelloWorldSvc;osgi.servic
+ e.blueprint.compname=hello
+Import-Package: org.fusesource.example.service,org.osgi.service.blueprin
+ t;version="[1.0.0,2.0.0)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Tool: Bnd-3.3.0.201609221906

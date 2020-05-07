@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: errorhandler.HandleFaultTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.889 s - in errorhandler.HandleFaultTest

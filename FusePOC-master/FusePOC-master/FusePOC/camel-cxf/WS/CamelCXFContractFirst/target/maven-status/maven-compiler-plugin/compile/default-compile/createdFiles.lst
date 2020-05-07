@@ -1,0 +1,7 @@
+org/apache/camel/example/reportincident/ReportIncidentEndpointService.class
+org/apache/camel/example/reportincident/ReportIncidentEndpoint.class
+org/apache/camel/example/reportincident/ObjectFactory.class
+org/apache/camel/example/reportincident/ReportIncidentServiceImpl.class
+org/apache/camel/example/reportincident/InputReportIncident.class
+org/apache/camel/example/reportincident/package-info.class
+org/apache/camel/example/reportincident/OutputReportIncident.class

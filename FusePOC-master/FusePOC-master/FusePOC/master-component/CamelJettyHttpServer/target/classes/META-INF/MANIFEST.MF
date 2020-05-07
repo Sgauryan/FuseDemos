@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1502277285460
+Build-Jdk: 1.8.0_131
+Built-By: sarai
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: Empty Camel Blueprint Example
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Empty Camel Blueprint Example [CamelJettyHttpServer]
+Bundle-SymbolicName: CamelJettyHttpServer
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.apache.curator.framework,org.osgi.service.blueprint;
+ version="[1.0.0,2.0.0)",io.fabric8.zookeeper
+Import-Service: org.apache.curator.framework.CuratorFramework;multiple:=
+ false
+Tool: Bnd-3.2.0.201605172007

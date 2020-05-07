@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1504010301262
+Build-Jdk: 1.8.0_131
+Built-By: sarai
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: Empty Camel Blueprint Example
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Empty Camel Blueprint Example [camel-loadbalancer]
+Bundle-SymbolicName: camel-loadbalancer
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.apache.camel;version="[2.17,3)",org.apache.log4j;ver
+ sion="[1.2,2)",org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-3.2.0.201605172007

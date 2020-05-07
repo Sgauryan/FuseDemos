@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2014, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<!-- This is the OSGi Blueprint XML file defining the Camel context and routes. 
+	Because the file is in the OSGI-INF/blueprint directory inside our JAR, it 
+	will be automatically activated as soon as the bundle is installed. The root 
+	element for any OSGi Blueprint file is 'blueprint' - you also see the namespace 
+	definitions for both the Blueprint and the Camel namespaces. -->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd                            http://camel.apache.org/schema/blueprint/cxf http://camel.apache.org/schema/blueprint/cxf/camel-cxf.xsd                           http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+	<!-- The namespace for the camelContext element in Blueprint is 'https://camel.apache.org/schema/blueprint'. 
+		Additionally, we can also define namespace prefixes we want to use them in 
+		the XPath expressions in our CBR. While it is not required to assign id's 
+		to the <camelContext/> and <route/> elements, it is a good idea to set those 
+		for runtime management purposes (logging, JMX MBeans, ...) -->
+	<cxf:cxfEndpoint id="reportEndpoint" address="http://localhost:8090/report/"
+		serviceClass="org.apache.camel.example.reportincident.ReportIncidentEndpoint"
+		wsdlURL="wsdl/report_incident.wsdl" />
+
+	<camelContext xmlns="http://camel.apache.org/schema/blueprint">
+		<route>
+			<from uri="cxf:bean:reportEndpoint" />
+			<convertBodyTo
+				type="org.apache.camel.example.reportincident.InputReportIncident" />
+			<log message="Received report incident ${body.incidentId}" />
+			<setHeader headerName="Exchange.FILE_NAME">
+				<simple>report-incident-${body.incidentId}.xml</simple>
+			</setHeader>
+			<to uri="file:work/incident" />
+			<log
+				message="Stored a copy of the incident as ${header.CamelFileNameProduced}" />
+			<choice>
+				<when>
+					<simple>${body.phone.isEmpty}</simple>
+					<to uri="seda:emailMe" />
+				</when>
+				<otherwise>
+					<to uri="seda:callMe" />
+				</otherwise>
+			</choice>
+			<to uri="language:constant:classpath:ok.xml" />
+			<convertBodyTo
+				type="org.apache.camel.example.reportincident.OutputReportIncident" />
+		</route>
+		<route>
+			<from uri="seda:callMe" />
+			<log message="We are going to call ${body.phone}" />
+		</route>
+		<route>
+			<from uri="seda:emailMe" />
+			<log message="We are going to email ${body.email}" />
+		</route>
+	</camelContext>
+
+</blueprint>

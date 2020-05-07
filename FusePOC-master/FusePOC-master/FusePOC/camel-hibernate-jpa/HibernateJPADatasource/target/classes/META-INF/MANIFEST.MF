@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1501500539929
+Build-Jdk: 1.8.0_131
+Built-By: sarai
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: Empty Camel Blueprint Example
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Empty Camel Blueprint Example [HibernateJPADatasource]
+Bundle-SymbolicName: HibernateJPADatasource
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Export-Service: javax.sql.DataSource;osgi.jndi.service.name=jdbc/mariadb
+ ;datasource.name=MariaDB
+Import-Package: javax.sql,org.apache.commons.dbcp;version="[1.4,2)",org.
+ osgi.service.blueprint;version="[1.0.0,2.0.0)"
+Tool: Bnd-3.2.0.201605172007

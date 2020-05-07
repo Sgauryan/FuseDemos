@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2014, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<!-- This is the OSGi Blueprint XML file defining the Camel context and routes. 
+	Because the file is in the OSGI-INF/blueprint directory inside our JAR, it 
+	will be automatically activated as soon as the bundle is installed. The root 
+	element for any OSGi Blueprint file is 'blueprint' - you also see the namespace 
+	definitions for both the Blueprint and the Camel namespaces. -->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd                            http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+	<!-- The namespace for the camelContext element in Blueprint is 'https://camel.apache.org/schema/blueprint'. 
+		Additionally, we can also define namespace prefixes we want to use them in 
+		the XPath expressions in our CBR. While it is not required to assign id's 
+		to the <camelContext/> and <route/> elements, it is a good idea to set those 
+		for runtime management purposes (logging, JMX MBeans, ...) -->
+	<camelContext id="_context1"
+		xmlns="http://camel.apache.org/schema/blueprint">
+		<dataFormats>
+			<xstream encoding="UTF-8" id="xstream-utf8" />
+			<xstream id="xstream-default" />
+			<xmljson id="xmljson"  forceTopLevelObject="false"/>
+			<xmljson expandableProperties="d e" forceTopLevelObject="true"
+				id="xmljsonWithOptions" removeNamespacePrefixes="true" rootName="newRoot"
+				skipNamespaces="true" trimSpaces="true" />
+			<xmljson forceTopLevelObject="true" id="JsonToXML"
+				removeNamespacePrefixes="true" rootName="newRoot" skipNamespaces="true"
+				trimSpaces="true" />
+			<xmljson forceTopLevelObject="true" id="XMLtoJson"
+				removeNamespacePrefixes="true" skipNamespaces="true" trimSpaces="true" />
+		</dataFormats>
+		<route id="_route1">
+			<from id="_from1" uri="timer://foo?fixedRate=true&amp;period=60000" />
+			<setProperty id="_setProperty1" propertyName="JsonString">
+				<constant> 
+			 {
+    "glossary": {
+        "title": "example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+					"SortAs": "SGML",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+} 
+			</constant>
+			</setProperty>
+			<log id="_log1" logName="com.mycompany.example" loggingLevel="INFO"
+				message="JSON String : ${property.JsonString}" />
+			<setBody id="_setBody1">
+				<simple>${property.JsonString}</simple>
+			</setBody>
+			<log id="_log2" logName="com.mycompany.example" loggingLevel="INFO"
+				message="body before: ${body}" />
+			<unmarshal id="_unmarshal1" ref="xmljson" />
+			<log id="_log3" logName="com.mycompany.example" loggingLevel="INFO"
+				message="body after: ${body}" />
+			<log id="_log4" logName="com.mycompany.example" loggingLevel="INFO"
+				message="body before: ${body}" />
+			<marshal id="_marshal1" ref="xmljson" />
+			<log id="_log5" logName="com.mycompany.example" loggingLevel="INFO"
+				message="marshlling Again : ${body}" />
+		</route>
+	</camelContext>
+</blueprint>
